@@ -1,0 +1,64 @@
+var map;
+var jsonVal;
+var host = "Enter your elastic search endpoint";
+
+ function initm() {
+
+     map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 2,
+         center: new google.maps.LatLng(40.7, 70)
+     });
+ }
+
+
+
+ $(document).ready(function() {
+     $("#cd-dropdown").change(function() {
+
+         initm();
+         var searchID = document.getElementById("cd-dropdown");
+         var searchTopic = searchID.options[searchID.selectedIndex].text;
+
+         var choice = ""
+
+
+         if (searchTopic != "Select Topic") {
+             var searchCriteria = host+"/tweetstwitter/Tweets/_search?q=text:" + searchTopic;
+
+             $.ajax({
+                 url: searchCriteria,
+                 type: 'GET',
+                 contentType: 'application/json; charset=UTF-8',
+                 dataType: "json",
+                 data: {
+                     size: 1500
+                 },
+                 success: function(data) {
+                     jsonVal = data.hits.hits;
+                     console.log(jsonVal);
+                     jsonVal.forEach(function(obj) {
+                         var latLng = new google.maps.LatLng(obj._source.latitude, obj._source.longitude);
+                         //   console.log(latLng)
+                         var marker = new google.maps.Marker({
+                             position: latLng,
+                             map: map
+                         });
+                         var infowindow = new google.maps.InfoWindow({
+                             content: obj._source.text
+                         });
+
+                         google.maps.event.addListener(marker, 'click', function() {
+                             infowindow.open(map, marker);
+                         });
+                     });
+                 }
+             }).fail(function(error) {
+                 console.log(error);
+             });
+
+
+
+         }
+
+     });
+ });
