@@ -6,7 +6,7 @@ TwittMap is a web application that collects Real-time tweets using twitter API's
 
 TwittMap fetches tweets from the twitter hose in real time and stored using ElasticSearch in he backend. Google Maps are used to show the tweets location and a click on the each marker will display the Tweet text. The Application is depployed on AWS BeanStalk enviornment.
 
-![alt text](https://github.com/hk1953/tweetMap/twittc.jpg "Markers as Tweet on Google Maps")
+![TweetMap](https://github.com/hk1953/tweetMap/twittc.jpg "Markers as Tweet on Google Maps")
 
 Steps to run the project:
 
